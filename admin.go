@@ -351,7 +351,6 @@ func healthcheck(rw http.ResponseWriter, req *http.Request) {
 	resultList := new([][]string)
 
 	content := make(map[string]interface{})
-
 	for name, h := range toolbox.AdminCheckList {
 		if err := h.Check(); err != nil {
 			result = []string{

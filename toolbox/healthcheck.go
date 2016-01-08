@@ -30,6 +30,10 @@
 // more docs: http://beego.me/docs/module/toolbox.md
 package toolbox
 
+import (
+	"fmt"
+)
+
 // health checker map
 var AdminCheckList map[string]HealthChecker
 
