@@ -31,7 +31,7 @@
 package toolbox
 
 import (
-	"fmt"
+	_ "fmt"
 )
 
 // health checker map
