@@ -101,6 +101,7 @@ func (app *App) Run() {
 			}
 			if EnableHttpListen {
 				go func() {
+					//Debug("enablehttplisten")
 					server := grace.NewServer(addr, app.Handlers)
 					server.Server = app.Server
 					if ListenTCP4 && HttpAddr == "" {
@@ -138,6 +139,7 @@ func (app *App) Run() {
 
 			if EnableHttpListen {
 				go func() {
+					//Debug("enablehttplisten")
 					app.Server.Addr = addr
 					BeeLogger.Info("http server Running on %s", app.Server.Addr)
 					if ListenTCP4 && HttpAddr == "" {
@@ -156,6 +158,7 @@ func (app *App) Run() {
 							return
 						}
 					} else {
+						//Debug("enable http.server")
 						err := app.Server.ListenAndServe()
 						if err != nil {
 							BeeLogger.Critical("ListenAndServe: ", err)

@@ -576,6 +576,10 @@ func (p *ControllerRegistor) geturl(t *Tree, url, controllName, methodName strin
 
 // Implement http.Handler interface.
 func (p *ControllerRegistor) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
+	/**Debug(fmt.Sprintf("r.Method:%s\n", r.Method))
+	Debug(fmt.Sprintf("r.Body:%s\n", r.Body))
+	Debug(fmt.Sprintf("r.URL:%s\n", r.URL.Path))
+	Debug(fmt.Sprintf("r.RequestURI:%s\n", r.RequestURI))**/
 	starttime := time.Now()
 	var runrouter reflect.Type
 	var findrouter bool
@@ -617,7 +621,7 @@ func (p *ControllerRegistor) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 					if ok, params := filterR.ValidRouter(urlPath); ok {
 						for k, v := range params {
 							if context.Input.Params == nil {
-								context.Input.Params = make(map[string]string)	
+								context.Input.Params = make(map[string]string)
 							}
 							context.Input.Params[k] = v
 						}
@@ -677,6 +681,7 @@ func (p *ControllerRegistor) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 	if context.Input.RunController != nil && context.Input.RunMethod != "" {
 		findrouter = true
 		runMethod = context.Input.RunMethod
+		//Debug(fmt.Sprintf("runMethod:%s\n", runMethod))
 		runrouter = context.Input.RunController
 	}
 
@@ -745,10 +750,13 @@ func (p *ControllerRegistor) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 				}
 				if m, ok := routerInfo.methods[method]; ok {
 					runMethod = m
+					//Debug(fmt.Sprintf("runMethod1:%s\n", runMethod))
 				} else if m, ok = routerInfo.methods["*"]; ok {
 					runMethod = m
+					//Debug(fmt.Sprintf("runMethod2:%s\n", runMethod))
 				} else {
 					runMethod = method
+					//Debug(fmt.Sprintf("runMethod3:%s\n", runMethod))
 				}
 			}
 		}
@@ -764,7 +772,7 @@ func (p *ControllerRegistor) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 
 			//call the controller init function
 			execController.Init(context, runrouter.Name(), runMethod, vc.Interface())
-
+			//Debug(fmt.Sprintf("runMethod4:%s\n", runMethod))
 			//call prepare function
 			execController.Prepare()
 
@@ -827,6 +835,7 @@ func (p *ControllerRegistor) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 	do_filter(FinishRouter)
 
 Admin:
+	//Debug(fmt.Sprintf("runMethod5:%s\n", runMethod))
 	timeend := time.Since(starttime)
 	//admin module record QPS
 	if EnableAdmin {

@@ -43,6 +43,7 @@ func (srv *graceServer) Serve() (err error) {
 // to handle requests on incoming connections. If srv.Addr is blank, ":http" is
 // used.
 func (srv *graceServer) ListenAndServe() (err error) {
+	log.Println("grace")
 	addr := srv.Addr
 	if addr == "" {
 		addr = ":http"
